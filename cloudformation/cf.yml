@@ -53,6 +53,11 @@ Resources:
           ToPort: "22"
           CidrIp:
             Ref: SSHCIDRParamter
+	-
+          IpProtocol: "tcp"
+          FromPort: "5000"
+          ToPort: "5000"
+          CidrIp: "0.0.0.0/0"
       VpcId:
         Ref: VPCParameter
 

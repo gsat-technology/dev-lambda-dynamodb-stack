@@ -48,6 +48,8 @@ Resources:
           chmod u+x ./dev-lambda-dynamodb-stack/cloudformation/docker_install.sh
           ./dev-lambda-dynamodb-stack/cloudformation/docker_install.sh
           docker-compose -f ./dev-lambda-dynamodb-stack/docker-compose.yml up --build
+          mv ./dev-lambda-dynamodb-stack /home/ubuntu/
+          chown -R ubuntu:ubuntu /home/ubuntu/dev-lambda-dynamodb-stack
 
   DevLambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup

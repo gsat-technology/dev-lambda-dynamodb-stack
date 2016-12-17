@@ -9,7 +9,7 @@ apt-get install -y docker-engine
 sudo usermod -aG docker ubuntu
 
 #install docker-compose
-apt-get install python-pip
+apt-get install -y python-pip
 pip install --upgrade pip
 pip install docker-compose
 

@@ -41,6 +41,13 @@ Resources:
           Value: hello
       SecurityGroupIds:
         - Ref: DevLambdaSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          git clone https://github.com/gsat-technology/dev-lambda-dynamodb-stack
+          chmod u+x ./dev-lambda-dynamodb-stack/cloudformation/docker_install.sh
+          ./dev-lambda-dynamodb-stack/cloudformation/docker_install.sh
+          docker-compose -f ./dev-lambda-dynamodb-stack/docker-compose.yml up --build
 
   DevLambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup

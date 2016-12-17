@@ -1,0 +1,57 @@
+Parameters:
+  InstanceTypeParameter:
+      Type: String
+          Default: t2.nano
+	      AllowedValues:
+	            - t2.nano
+		          - t2.micro
+			      Description: Enter t1.micro, m1.small, or m1.large. Default is t1.micro.
+
+  UbuntuAMIParameter:
+      Type: String
+          Default: ami-ae6259cd
+	      Description: Ubuntu 16.04 AMI (default is ap-southeast-2 image) Choose relevant image for region
+
+  VPCParameter:
+      Type: AWS::EC2::VPC::Id
+          Description: VPC
+
+  SSHCIDRParamter:
+      Type: String
+          Description: SSH (Port 22) CIDR (e.g. 0.0.0.0/0 or <your ip>/32)
+
+  KeyPairParameter:
+      Type: AWS::EC2::KeyPair::KeyName
+          Description: Keypair for EC2 instance
+
+Resources:
+  DevLambdaEc2:
+      Type: AWS::EC2::Instance
+          Properties:
+	        InstanceType:
+		        Ref: InstanceTypeParameter
+			      ImageId:
+			              Ref: UbuntuAMIParameter
+				            KeyName:
+					            Ref: KeyPairParameter
+						          Tags:
+							          - Key: Name
+								            Value: devlambda
+									            - Key: arbitrary-tag
+										              Value: hello
+											            SecurityGroupIds:
+												            - Ref: DevLambdaSecurityGroup
+
+  DevLambdaSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+          Properties:
+	        GroupDescription: devlambda sg
+		      SecurityGroupIngress:
+		              -
+			                IpProtocol: "tcp"
+					          FromPort: "22"
+						            ToPort: "22"
+							              CidrIp: "0.0.0.0/0"
+								            VpcId:
+									            Ref: VPCParameter
+										    

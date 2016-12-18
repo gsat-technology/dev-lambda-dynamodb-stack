@@ -8,5 +8,6 @@ services:
       - ./flaskapp:/code
     depends_on:
       - dynamodb
+    restart: always
   dynamodb:
     build: ./dynamodb

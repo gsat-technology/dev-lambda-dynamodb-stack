@@ -11,6 +11,8 @@ CloudFormation template deploys an EC2 instance with:
 
 ![alt tag](https://raw.githubusercontent.com/gsat-technology/dev-lambda-dynamodb-stack/master/resources/high-level-architecture-diagram.png)
 
+![alt tag](https://raw.githubusercontent.com/gsat-technology/dev-lambda-dynamodb-stack/master/resources/ec2-detail-diagram.png)
+
 ### Launch CloudFormation Stack
 
 Using the AWS CloudFormation console, upload `cloudformation/cf.yml` and choose parameter values as required
@@ -50,9 +52,4 @@ TODO
 
 ### Log Flask Output
 TODO
-
-
-
-
-
 

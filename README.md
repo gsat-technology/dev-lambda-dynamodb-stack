@@ -41,6 +41,46 @@ aws cloudformation create-stack \
 
 On launch, EC2 instance will automatically install, configure and start the containers. 
 
+Note that installation of docker and building of containers may take a little while. You can tail the cloud-init-output.log file to check on the progress:
+
+```
+tail -f /var/log/cloud-init-output.log
+```
+
+The docker containers starting up is the final action.
+
+####Simple Test
+
+Get the public IP address of your EC2 instance and try sending a POST request to /lambda on port 5000 i.e.
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"message":"it works!"}' http://<ec2_ip_address>:5000/lambda
+```
+
+The response you should receive is the same JSON you passed in the POST body i.e. `{"message":"it works!"}`
+
+####Test DynamoDB
+
+Try the test endpoint to ensure that the DynamoDB container is reachable. The test endpoint simply creates a new table, adds an item, gets the item, then deletes the table.
+
+```
+curl -v 'http://<ec2_ip_address>:5000/testdynamodb?tablename=xyz&id=999&somestring=heya'
+```
+
+The above should produce this response
+
+```json
+{
+  "put_item": "OK",
+  "delete_table": "OK",
+  "create_table": "OK",
+  "get_item": {
+    "somestring": "heya",
+    "id": "999"
+  }
+}
+```
+
 ### Setup Integration with API Gateway
 TODO
 
@@ -51,5 +91,24 @@ TODO
 TODO
 
 ### Log Flask Output
-TODO
+
+Logging from Flask (and the mock lambda_handler.py function) can be tailed from the flask docker container e.g.
+
+1. Get the id of the flask container by
+running `docker ps` and note the id of the `devlambdadynamodbstack_flask ` container
+
+2. Tail the log of the flask container
+
+```
+docker logs -f <container id>
+```
+
+Or the above in a one-liner:
+
+```
+docker logs -f $(docker ps -aqf "name=devlambdadynamodbstack_flask")
+```
+
+
+ 
 
